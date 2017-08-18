@@ -146,3 +146,12 @@ def test_data_chunks():
     assert len(chunks2) == 112
     assert len(chunks2[0]) == 38
     assert len(chunks2[-1]) == 2840
+
+
+def test_minhash_stable():
+    test_data = (b'Hello', b'World')
+    v = iscc.minimum_hash(test_data)
+    assert len(v) == 128
+    assert v[0] == 734825475
+    assert v[1] == 870984425
+    assert v[-1] == 1450904949

@@ -4,12 +4,13 @@ ISCC Reference Implementation
 """
 import re
 import base64
+import struct
 from io import BytesIO
-from hashlib import sha256
+from hashlib import sha256, sha1
 import unicodedata
 from typing import List, ByteString, Sequence, BinaryIO, TypeVar, Generator
 
-from iscc.const import CHUNKING_GEAR
+from iscc.const import CHUNKING_GEAR, MINHASH_PERMUTATIONS
 
 # Magic Constants
 
@@ -204,9 +205,20 @@ def similarity_hash(hash_digests: Sequence[ByteString]) -> ByteString:
     return shash.to_bytes(n_bytes, 'big', signed=False)
 
 
-def minimum_hash(hash_digests: Sequence[ByteString]) -> ByteString:
-    # TODO Implement pure python minhash
-    pass
+def minimum_hash(hash_digests: Sequence[ByteString]) -> Sequence[int]:
+    max_hash = (1 << 32) - 1
+    max_int64 = (1 << 64) - 1
+    num_perm = 128
+    hashvalues = [max_hash] * num_perm
+    for digest in hash_digests:
+        hash_value = struct.unpack('<I', sha1(digest).digest()[:4])[0]
+        a, b = MINHASH_PERMUTATIONS[1]
+        new_hashvalues = []
+        for x in range(num_perm):
+            new_hashvalue = (((a[x] * hash_value + b[x]) & max_int64) % ((1 << 61) - 1)) & max_hash
+            new_hashvalues.append(min(new_hashvalue, hashvalues[x]))
+        hashvalues = new_hashvalues
+    return hashvalues
 
 
 def c2d(code: str) -> ByteString:
