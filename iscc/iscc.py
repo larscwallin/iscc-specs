@@ -232,6 +232,12 @@ def c2i(code):
     return int.from_bytes(digest[1:8], 'big', signed=False)
 
 
+def jaccard_similarity(ident1: int, ident2: int) -> float:
+    intersection = bin(ident1 & ident2).count('1')
+    union = bin(ident1 | ident2).count('1')
+    return intersection / union
+
+
 def hamming_distance(ident1: int, ident2: int) -> int:
 
     return bin(ident1 ^ ident2).count('1')

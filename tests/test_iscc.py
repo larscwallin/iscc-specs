@@ -155,3 +155,11 @@ def test_minhash_stable():
     assert v[0] == 734825475
     assert v[1] == 870984425
     assert v[-1] == 1450904949
+
+
+def test_jaccard_similarity():
+    value_1 = 474169
+    value_2 = 474681
+    assert iscc.jaccard_similarity(value_1, value_2) == 0.9166666666666666
+    assert iscc.jaccard_similarity(1, 2) == 0
+    assert iscc.jaccard_similarity(42, 42) == 1
