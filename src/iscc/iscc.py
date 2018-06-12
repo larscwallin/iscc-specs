@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 """ISCC Reference Implementation"""
+from __future__ import unicode_literals
 from binascii import hexlify
 from statistics import median
 import math
@@ -8,7 +9,8 @@ from hashlib import sha256
 import unicodedata
 from PIL import Image
 import xxhash
-from iscc.const import *
+from builtins import int, bytes, str
+from .const import *
 
 
 ###############################################################################
@@ -260,9 +262,9 @@ def image_normalize(img):
 
 def similarity_hash(hash_digests):
 
-    n_bytes = len(hash_digests[0])
-    n_bits = (n_bytes * 8)
-    vector = [0] * n_bits
+    n_bytes = int(len(hash_digests[0]))
+    n_bits = int(n_bytes * 8)
+    vector = [int(0)] * n_bits
 
     for digest in hash_digests:
 
@@ -270,8 +272,8 @@ def similarity_hash(hash_digests):
         h = int.from_bytes(digest, 'big', signed=False)
 
         for i in range(n_bits):
-            vector[i] += h & 1
-            h >>= 1
+            vector[int(i)] += h & int(1)
+            h >>= int(1)
 
     minfeatures = len(hash_digests) * 1. / 2
     shash = 0
@@ -279,7 +281,7 @@ def similarity_hash(hash_digests):
     for i in range(n_bits):
         shash |= int(vector[i] >= minfeatures) << i
 
-    return shash.to_bytes(n_bytes, 'big', signed=False)
+    return int(shash).to_bytes(n_bytes, 'big', signed=False)
 
 
 def minimum_hash(features):
@@ -407,6 +409,7 @@ def data_chunks(data):
 def chunk_length(data, norm_size, min_size, max_size, mask_1, mask_2):
 
     data_length = len(data)
+    data = bytearray(data)
     i = min_size
     pattern = 0
 
@@ -449,7 +452,7 @@ def dct(value_list):
 
 def distance(a, b):
 
-    if isinstance(a, str) and isinstance(b, str):
+    if isinstance(a, str) and isinstance(b, str) and len(a) == 13:
         a = decode(a)[1:]
         b = decode(b)[1:]
 
@@ -477,11 +480,10 @@ def encode(digest):
         chars.append(value % 58)
         value //= 58
         numvalues //= 58
-    return str.translate(''.join([chr(c) for c in reversed(chars)]), V2CTABLE)
+    return ''.join([chr(c) for c in reversed(chars)]).translate(V2CTABLE)
 
 
 def decode(code):
-
     n = len(code)
     if n == 13:
         return decode(code[:2]) + decode(code[2:])
@@ -505,4 +507,4 @@ def decode(code):
         data.append(value % 256)
         value //= 256
         numvalues //= 256
-    return bytes(reversed(data))
+    return bytes(bytearray(reversed(data)))

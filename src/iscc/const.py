@@ -1,5 +1,8 @@
 # -*- coding: utf-8 -*-
 """Constants"""
+from __future__ import unicode_literals
+from builtins import str
+
 
 # Component Headers
 HEAD_MID = b'\x00'
