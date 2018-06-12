@@ -200,18 +200,19 @@ def text_pre_normalize(text):
     return text
 
 
-def text_trim(text, cut = INPUT_TRIM):
+def text_trim(text, cut=INPUT_TRIM):
 
     new_cut = 0
     while cut >= 0:
         try:
             new_cut = len(text.encode("utf-8")[:cut].decode('utf-8'))
             break
-        # A decode error should be the result of cutting a utf-8 encodet character, 
-        # so we will try again with one byte less.
-        except UnicodeDecodeError:  
-            pass 
+        # A decode error should be the result of cutting into a utf-8 encoded
+        # multibyte character, so we will try again with one byte less.
+        except UnicodeDecodeError:
+            pass
         cut -= 1
+
     return text[:new_cut]
 
 
