@@ -6,7 +6,7 @@ from binascii import hexlify
 from io import BytesIO, open
 from PIL import Image, ImageFilter, ImageEnhance
 import iscc
-from builtins import bytes, int, str
+from builtins import bytes, int
 
 
 HERE = os.path.dirname(__file__)
@@ -261,6 +261,10 @@ def test_content_id_image():
     cid_i = iscc.content_id_image(data, partial=True)
     assert len(cid_i) == 13
     assert cid_i == 'CimLoqBRgV32u'
+
+    data = BytesIO(open('pixel_png_white.png', 'rb').read())
+    cid_i = iscc.content_id_image(data, partial=True)
+    assert cid_i == 'CimtUQqQ6wZB4'
 
     img1 = Image.open('lenna.jpg')
     img2 = img1.filter(ImageFilter.GaussianBlur(10))
