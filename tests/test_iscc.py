@@ -2,7 +2,6 @@
 from __future__ import unicode_literals
 import os
 import json
-import random
 from binascii import hexlify
 from io import BytesIO, open
 from PIL import Image, ImageFilter, ImageEnhance
@@ -189,6 +188,9 @@ def test_hamming_distance():
     mid2 = iscc.meta_id('Now for something different')[0]
     assert iscc.distance(mid1, mid2) >= 25
 
+    # For Codes
+    assert iscc.distance('CDjPCoxV16Ppq', 'CDbvQqTQwHG4e') == 11
+
 
 def test_content_id_mixed():
     cid_t_1 = iscc.content_id_text('Some Text')
@@ -206,8 +208,8 @@ def test_content_id_mixed():
 
 
 def test_data_id():
-    random.seed(1)
-    data = bytearray([random.getrandbits(8) for _ in range(1000000)])  # 1 mb
+    with open('data.blob', 'rb') as infile:
+        data = bytearray(infile.read())
     did_a = iscc.data_id(data)
     assert did_a == 'CDjPCoxV16Ppq'
     data.insert(500000, 1)
@@ -215,9 +217,10 @@ def test_data_id():
     data.insert(500002, 3)
     did_b = iscc.data_id(data)
     assert did_b == did_b
-    for x in range(100):  # insert 100 bytes random noise
-        data.insert(random.randint(0, 1000000), random.randint(0, 255))
+    with open('data-mod.blob', 'rb') as infile:
+        data = bytearray(infile.read())
     did_c = iscc.data_id(data)
+    assert did_c == 'CDjvrUmyp25vW'
     assert iscc.distance(did_a, did_c) == 7
 
 
