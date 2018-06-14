@@ -102,9 +102,9 @@ def test_content_id_text():
 
 def test_text_normalize():
 
-    text = 'Iñtërnâtiônàlizætiøn☃💩 is a ticky \u00A0 thing'
+    text = iscc.text_pre_normalize('Iñtërnâtiônàlizætiøn☃💩 is a ticky \u00A0 thing')
     normalized = iscc.text_normalize(text)
-    assert normalized == 'internationalizætiøn☃💩 is a ticky thing'
+    assert normalized == 'internationalizætiøn is a ticky thing'
 
     assert iscc.text_normalize(' ') == ''
     assert iscc.text_normalize('  Hello  World ? ') == 'hello world'

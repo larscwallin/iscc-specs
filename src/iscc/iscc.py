@@ -223,7 +223,7 @@ def text_normalize(text):
 
     # 2. Filter and normalize
     chars = []
-    whitelist = 'LNS'
+    whitelist = 'LN'
     for c in decomposed:
         cat = unicodedata.category(c)
         if cat.startswith('Z'):

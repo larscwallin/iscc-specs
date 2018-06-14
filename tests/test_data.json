@@ -3816,7 +3816,7 @@
         "Iñtërnâtiônàlizætiøn☃"
       ],
       "outputs": [
-        "CCj3TQrYcgaox",
+        "CCga59mXiTwHJ",
         "Iñtërnâtiônàlizætiøn☃",
         ""
       ]
@@ -3847,7 +3847,7 @@
         "Iñtërnâtiônàlizætiøn☃ Iñtërnâtiônàlizætiøn☃ Iñtërnâtiônàlizætiøn☃ Iñtërnâtiônàlizætiøn☃ Iñtërnâtiônàlizætiøn☃ Iñtërnâtiônàlizætiøn☃"
       ],
       "outputs": [
-        "CCj4Pgfus9MxL",
+        "CChXyRnkNw5YU",
         "Iñtërnâtiônàlizætiøn☃ Iñtërnâtiônàlizætiøn☃ Iñtërnâtiônàlizætiøn☃ Iñtërnâtiônàlizætiøn☃ Iñt",
         ""
       ]
@@ -4006,13 +4006,13 @@
       "inputs": [
         "Ç 가 Ω ℍ ① ︷ i⁹ ¼ ǆ ⫝̸ ȴ ȷ ɂ ć"
       ],
-      "outputs": "c 가 ω ℍ ① i⁹ ¼ ǆ ⫝ ȴ ȷ ɂ c"
+      "outputs": "c 가 ω ℍ ① i⁹ ¼ ǆ ȴ ȷ ɂ c"
     },
     "test_002_triky": {
       "inputs": [
         "Iñtërnâtiônàlizætiøn☃ and string escaping are ticky &#160; things"
       ],
-      "outputs": "internationalizætiøn☃ and string escaping are ticky 160 things"
+      "outputs": "internationalizætiøn and string escaping are ticky 160 things"
     }
   },
   "text_pre_normalize": {
