@@ -477,7 +477,7 @@ def encode(digest):
     digest = reversed(digest)
     value = 0
     numvalues = 1
-    for octet in digest:
+    for octet in bytearray(digest):
         octet *= numvalues
         value += octet
         numvalues *= 256
