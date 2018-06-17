@@ -22,7 +22,7 @@ setup(
     packages=find_packages('src'),
     package_dir={'': 'src'},
     include_package_data=True,
-    install_requires=['xxhash', 'Pillow', 'future', 'statistics;python_version<"3.4"'],
+    install_requires=['xxhash', 'Pillow', 'future', 'statistics;python_version<"3.4"', 'mpmath'],
     license='BSD 2-clause',
     zip_safe=False,
     keywords='iscc identifier media content hash blockchain similarity',

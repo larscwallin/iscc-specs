@@ -2,14 +2,14 @@
 """ISCC Reference Implementation"""
 from __future__ import unicode_literals
 from binascii import hexlify
+import mpmath as math
 from statistics import median
-import math
 from io import BytesIO
 from hashlib import sha256
 import unicodedata
 from PIL import Image
 import xxhash
-from builtins import int, bytes, str
+from builtins import int, bytes
 from .const import *
 
 
@@ -453,7 +453,7 @@ def dct(value_list):
                 math.pi * k * (2 * i + 1) / (2 * n)
             )
         dct_list.append(2 * value)
-    return dct_list
+    return [float(v) for v in dct_list]
 
 
 def distance(a, b):
