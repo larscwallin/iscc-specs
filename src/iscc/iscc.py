@@ -79,20 +79,16 @@ def content_id_text(text, partial=False):
     # 7. Collect least significant bits
     lsb = ''.join([str(x & 1) for x in minhash])
 
-    # 8. Create two 64-bit digests
-    a = int(lsb[:64], 2).to_bytes(8, 'big', signed=False)
-    b = int(lsb[64:], 2).to_bytes(8, 'big', signed=False)
+    # 8. Create 64-bit digest
+    digest = int(lsb, 2).to_bytes(8, 'big', signed=False)
 
-    # 9. Apply simhash to digests
-    simhash_digest = similarity_hash((a, b))
-
-    # 10. Prepend component header
+    # 9. Prepend component header
     if partial:
-        content_id_text_digest = HEAD_CID_T_PCF + simhash_digest
+        content_id_text_digest = HEAD_CID_T_PCF + digest
     else:
-        content_id_text_digest = HEAD_CID_T + simhash_digest
+        content_id_text_digest = HEAD_CID_T + digest
 
-    # 11. Encode and return
+    # 10. Encode and return
     return encode(content_id_text_digest)
 
 
@@ -147,16 +143,12 @@ def data_id(data):
     lsb = ''.join([str(x & 1) for x in minhash])
 
     # 5. Create two 64-bit digests
-    a = int(lsb[:64], 2).to_bytes(8, 'big', signed=False)
-    b = int(lsb[64:], 2).to_bytes(8, 'big', signed=False)
+    digest = int(lsb, 2).to_bytes(8, 'big', signed=False)
 
-    # 6. Apply simhash
-    simhash_digest = similarity_hash((a, b))
+    # 6. Prepend the 1-byte header
+    data_id_digest = HEAD_DID + digest
 
-    # 7. Prepend the 1-byte header
-    data_id_digest = HEAD_DID + simhash_digest
-
-    # 8. Encode and return
+    # 7. Encode and return
     return encode(data_id_digest)
 
 
@@ -295,13 +287,13 @@ def minimum_hash(features):
     max_int64 = (1 << 64) - 1
     mersenne_prime = (1 << 61) - 1
     max_hash = (1 << 32) - 1
-    hashvalues = [max_hash] * 128
+    hashvalues = [max_hash] * 64
 
     a, b = MINHASH_PERMUTATIONS
 
     for hv in features:
         nhs = []
-        for x in range(128):
+        for x in range(64):
             nh = (((a[x] * hv + b[x]) & max_int64) % mersenne_prime) & max_hash
             nhs.append(min(nh, hashvalues[x]))
         hashvalues = nhs

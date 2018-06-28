@@ -89,9 +89,9 @@ def test_decode():
 def test_content_id_text():
     cid_t_np = iscc.content_id_text('')
     assert len(cid_t_np) == 13
-    assert "CTiesaXaMqbbU" == cid_t_np
+    assert "CTLFBzNZPEJnV" == cid_t_np
     cid_t_p = iscc.content_id_text('', partial=True)
-    assert "CtiesaXaMqbbU" == cid_t_p
+    assert "CtLFBzNZPEJnV" == cid_t_p
     assert 0 == iscc.distance(cid_t_p, cid_t_np)
 
     cid_t_a = iscc.content_id_text(TEXT_A)
@@ -197,21 +197,21 @@ def test_content_id_mixed():
     cid_t_2 = iscc.content_id_text('Another Text')
 
     cid_m = iscc.content_id_mixed([cid_t_1])
-    assert cid_m == "CM3oME4TtXogc"
+    assert "CM3oCRy2KkNkE" == cid_m
 
     cid_m = iscc.content_id_mixed([cid_t_1, cid_t_2])
-    assert cid_m == "CM3RQtGc98nXg"
+    assert "CM3RQ81tKGfhp" == cid_m
 
     cid_i = iscc.content_id_image('lenna.jpg')
     cid_m = iscc.content_id_mixed([cid_t_1, cid_t_2, cid_i])
-    assert cid_m == "CM3ovx7zUEy38"
+    assert "CM3oiH4yFjSqL" == cid_m
 
 
 def test_data_id():
     with open('data.blob', 'rb') as infile:
         data = bytearray(infile.read())
     did_a = iscc.data_id(data)
-    assert did_a == 'CDjPCoxV16Ppq'
+    assert 'CDdyyZ8xL76mk' == did_a
     data.insert(500000, 1)
     data.insert(500001, 2)
     data.insert(500002, 3)
@@ -220,8 +220,8 @@ def test_data_id():
     with open('data-mod.blob', 'rb') as infile:
         data = bytearray(infile.read())
     did_c = iscc.data_id(data)
-    assert did_c == 'CDjvrUmyp25vW'
-    assert iscc.distance(did_a, did_c) == 7
+    assert 'CDd9Hg7Tix2w2' == did_c
+    assert 8 == iscc.distance(did_a, did_c)
 
 
 def test_instance_id():
