@@ -407,19 +407,22 @@ def data_chunks(data):
 def chunk_length(data, norm_size, min_size, max_size, mask_1, mask_2):
 
     data_length = len(data)
-    data = bytearray(data)
+    data = bytes(data)
     i = min_size
     pattern = 0
 
     if data_length <= min_size:
         return data_length
 
-    while i < min(norm_size, data_length):
+    barrier = min(norm_size, data_length)
+    while i < barrier:
         pattern = (pattern << 1) + CHUNKING_GEAR[data[i]]
         if not pattern & mask_1:
             return i
         i = i + 1
-    while i < min(max_size, data_length):
+
+    barrier = min(max_size, data_length)
+    while i < barrier:
         pattern = (pattern << 1) + CHUNKING_GEAR[data[i]]
         if not pattern & mask_2:
             return i
