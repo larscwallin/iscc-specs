@@ -416,14 +416,14 @@ def chunk_length(data, norm_size, min_size, max_size, mask_1, mask_2):
 
     barrier = min(norm_size, data_length)
     while i < barrier:
-        pattern = (pattern << 1) + CHUNKING_GEAR[data[i]]
+        pattern = ((pattern << 1) + CHUNKING_GEAR[data[i]]) & MAX_INT64
         if not pattern & mask_1:
             return i
         i = i + 1
 
     barrier = min(max_size, data_length)
     while i < barrier:
-        pattern = (pattern << 1) + CHUNKING_GEAR[data[i]]
+        pattern = ((pattern << 1) + CHUNKING_GEAR[data[i]]) & MAX_INT64
         if not pattern & mask_2:
             return i
         i = i + 1
