@@ -510,10 +510,10 @@ See also: [Minimum hash reference code](https://github.com/iscc/iscc-specs/blob/
 Signature: `image_hash(pixels: List[List[int]]) -> bytes`
 
 1. Perform a discrete cosine transform per row of input pixels.
-2. Perform a discrete cosine transform per column on the resulting matrix from step 2.
+2. Perform a discrete cosine transform per column on the resulting matrix from step 1.
 3. Extract upper left 8x8 corner of array from step 2 as a flat list.
 4. Calculate the median of the results from step 3.
-5. Create a 64-bit digest by iterating over the values of step 5 and setting a  `1`- for values above median and `0` for values below or equal to median.
+5. Create a 64-bit digest by iterating over the values of step 4 and setting a  `1`- for values above median and `0` for values below or equal to median.
 6. Return results from step 5.
 
 See also: [Image hash reference code](https://github.com/iscc/iscc-specs/blob/master/src/iscc/iscc.py#L274)
